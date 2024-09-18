@@ -9,3 +9,6 @@ const { data, error } = await supabase.from('cabins').select('*')
   return data
 }
 
+export async function(id){
+  
+}
