@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+// import PropTypes from "prop-types";
 
 const StyledFormRow = styled.div`
   display: grid;
@@ -57,3 +58,7 @@ function FormRow({ label, error, children, orientation }) {
 }
 
 export default FormRow;
+
+// FormRow.propTypes = {
+//   orientation: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
+// };
