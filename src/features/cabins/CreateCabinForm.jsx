@@ -50,7 +50,7 @@ function CreateCabinForm() {
   const queryClient = useQueryClient()
   const {register, handleSubmit, reset, getValues, formState} = useForm();
   const {errors} = formState
-  console.log(errors)
+  
   const {mutate, isLoading: isCreating} = useMutation({
     mutationFn: createCabin,
     onSuccess: ()=> {
@@ -65,11 +65,10 @@ function CreateCabinForm() {
 
     
   function onSubmit(data){
-    mutate(data)
+    mutate({...data, image: data.image[0]})
+    console.log(data)
   }
-  function onError(errors){
-    console.log(errors)
-  }
+  function onError(){}
 
   return (
     <Form onSubmit={handleSubmit(onSubmit,onError)} >
@@ -118,7 +117,9 @@ function CreateCabinForm() {
 
       <FormRow>
         <Label htmlFor="image">Cabin photo</Label>
-        <FileInput id="image" accept="image/*" />
+        <FileInput id="image" accept="image/*" {...register('image',
+        {required: 'Image file is required.'} )} />
+        {errors?.image?.message && <Error>{errors.image.message}</Error>}
       </FormRow>
 
       <FormRow>
