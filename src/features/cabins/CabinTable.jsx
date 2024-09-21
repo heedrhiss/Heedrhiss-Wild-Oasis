@@ -1,8 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
-import {getCabins} from '../../services/cabinsAPI'
 import CabinRow from './CabinRow';
 import Spinner from '../../ui/Spinner';
+import { useCabins } from './useCabins';
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -33,11 +32,11 @@ const TableHeader = styled.header`
 // The hotel won't ever have a lot of cabins, so there is no need to paginate. So we will do no pagination, AND we will do filtering and sorting. So here we learn how to do it on the FRONT-END (later in the booking we will do the BACK-END version, which is more real world)
 
 function CabinTable() {
-  
-  const {data: cabins, isLoading} =  useQuery({
-    queryKey: ['cabins'],
-    queryFn: getCabins
-    })
+  const {cabins, isLoading} =  useCabins()
+  // const {data: cabins, isLoading} =  useQuery({
+  //   queryKey: ['cabins'],
+  //   queryFn: getCabins
+  //   })
   if (isLoading) return <Spinner/>;
   return (
         <Table role='table'>

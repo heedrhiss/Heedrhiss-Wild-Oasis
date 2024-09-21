@@ -67,7 +67,7 @@ function CreateCabinForm({cabinToEdit={}}) {
   } )
 
   const {mutate: editCabin, isLoading: isEditingCabing} = useMutation({
-    mutationFn: createCabin,
+    mutationFn: ({newCabinData, id}) => createCabin(newCabinData, id),
     onSuccess: ()=> {
       toast.success('Cabin edited successfully.')
       queryClient.invalidateQueries({
@@ -76,17 +76,18 @@ function CreateCabinForm({cabinToEdit={}}) {
       reset()
     },
     onError: (err)=> toast.error(err.message)
-  } )
+  })
 
   const isLoading = isCreatingCabin || isEditingCabing
 
   function onSubmit(data){
+    const image = typeof data.image === "string" ? data.image : data.image[0]
     if(isEditing){
-      editCabin({...data, image: data.image[0]})
+      console.log(data)
+      editCabin({newCabinData: {...data, image:image}, id: editId})}
+      else addCabin({...data, image: image})
     }
-    addCabin({...data, image: data.image[0]})
-    console.log(data)
-  }
+
 
   function onError(){}
 
@@ -138,7 +139,7 @@ function CreateCabinForm({cabinToEdit={}}) {
       <FormRow>
         <Label htmlFor="image">Cabin photo</Label>
         <FileInput id="image" accept="image/*" {...register('image',
-        {required: 'Image file is required.'} )} />
+        {required: isEditing ? false : 'Image file is required.'} )} />
         {errors?.image?.message && <Error>{errors.image.message}</Error>}
       </FormRow>
 

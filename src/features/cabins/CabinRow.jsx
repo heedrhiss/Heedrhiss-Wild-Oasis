@@ -90,7 +90,7 @@ function CabinRow({cabin}) {
         <span>&mdash;</span>
       )}
       <div>
-      <button onClick={()=> setIsEditing(!isEditing)}>Edit</button>
+      <button onClick={()=> setIsEditing(!isEditing)}>{isEditing ? "Close" : "Edit"}</button>
       <button disabled={isDeleting} onClick={()=> mutate(cabinId)}>Delete</button>
       </div>
     </TableRow>
