@@ -46,7 +46,7 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function CreateCabinForm({cabinToEdit={}}) {
+function CreateCabinForm({cabinToEdit={}, onClose}) {
   const {id: editId, ...editValues} = cabinToEdit
   const isEditing = Boolean(editId);
   const {register, handleSubmit, reset, getValues, formState} = useForm({defaultValues: isEditing ? editValues : {}});
@@ -64,14 +64,15 @@ function CreateCabinForm({cabinToEdit={}}) {
         onSuccess: ()=> reset()
       })}
       else addCabin({...data, image: image}, {
-        onSuccess: ()=> reset()
+        onSuccess: ()=> {reset(),
+        onClose?.()}
       })
     }
 
   function onError(){}
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit,onError)} >
+    <Form onSubmit={handleSubmit(onSubmit,onError)} type={onClose ? 'modal': 'regular'} >
       <FormRow>
         <Label htmlFor="name">Cabin name</Label>
         <Input type="text" id="name" disabled={isLoading} {...register('name',
@@ -123,8 +124,8 @@ function CreateCabinForm({cabinToEdit={}}) {
       </FormRow>
 
       <FormRow>
-        <Button variation="secondary" type="reset">
-          Clear
+        <Button variation="secondary" type="reset" onClick={()=> onClose?.()}>
+          Cancel
         </Button>
         <Button type="submit" disabled={isLoading}>{isEditing ? "Edit Cabin" : "Add cabin"}</Button>
       </FormRow>
@@ -144,4 +145,5 @@ CreateCabinForm.propTypes = {
     description: PropTypes.string,
     image: PropTypes.string,
   }),
+  onClose: PropTypes.func.isRequired, 
 };

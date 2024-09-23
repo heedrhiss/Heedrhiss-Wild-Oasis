@@ -14,7 +14,6 @@ export async function updateSetting(newSetting) {
   const { data, error } = await supabase
     .from("settings")
     .update(newSetting)
-   
     .eq("id", 1)
     .single();
 
