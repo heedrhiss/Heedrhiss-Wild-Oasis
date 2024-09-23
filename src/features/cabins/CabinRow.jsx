@@ -1,12 +1,12 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
+import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
 
 import CreateCabinForm from './CreateCabinForm';
-import { formatCurrency } from '../../utils/helpers';
-import { deleteCabin } from '../../services/cabinsAPI';
+import { formatCurrency } from '../../utils/helpers'
+import { useDeleteCabin } from './useDeleteCabin';
+import { useCreateCabin } from './useCreateCabin';
 
 const TableRow = styled.div`
   display: grid;
@@ -42,6 +42,12 @@ const Price = styled.div`
   font-weight: 600;
 `;
 
+const Button = styled.div`
+  display: flex;
+  justify-content: space-around;
+  items-align: center;
+`
+
 const Discount = styled.div`
   font-family: 'Sono';
   font-weight: 500;
@@ -50,6 +56,8 @@ const Discount = styled.div`
 
 function CabinRow({cabin}) {
   const [isEditing, setIsEditing] = useState(false);
+  const {addCabin, isCreatingCabin} = useCreateCabin()
+  const {delCabin, isDeleting} = useDeleteCabin()
 
   const {
     id: cabinId,
@@ -57,22 +65,21 @@ function CabinRow({cabin}) {
     maxCapacity,
     regPrice,
     discount,
+    description,
     image,
   } = cabin;
-  const queryClient = useQueryClient()
+  function handleCopy(){
+    addCabin({
+      name: `Copy of ${name}`,
+      maxCapacity,
+      regPrice,
+      discount,
+      description,
+      image
+    })
+  }
+  const isLoading = isCreatingCabin || isDeleting;
 
-  const {mutate, isLoading: isDeleting} = useMutation({
-    mutationFn: deleteCabin,
-    onSuccess: ()=> {
-      toast.success('Cabin deleted successfully')
-      queryClient.invalidateQueries({
-      queryKey: ['cabins'],
-    })},
-    onError: (err)=> {
-      err = err.message
-      toast.error(err)
-    }
-  })
   return (
     <>
     <TableRow role='row'>
@@ -89,10 +96,11 @@ function CabinRow({cabin}) {
       ) : (
         <span>&mdash;</span>
       )}
-      <div>
-      <button onClick={()=> setIsEditing(!isEditing)}>{isEditing ? "Close" : "Edit"}</button>
-      <button disabled={isDeleting} onClick={()=> mutate(cabinId)}>Delete</button>
-      </div>
+      <Button>
+      <button onClick={handleCopy} disabled={isLoading}><HiSquare2Stack/></button>
+      <button onClick={()=> setIsEditing(!isEditing)}><HiPencil/></button>
+      <button disabled={isLoading} onClick={()=> delCabin(cabinId)}><HiTrash/></button>
+      </Button>
     </TableRow>
     {isEditing && <CreateCabinForm cabinToEdit={cabin}/>}
     </>
@@ -105,6 +113,7 @@ CabinRow.propTypes = {
     maxCapacity: PropTypes.number.isRequired,
     regPrice: PropTypes.number.isRequired,
     discount: PropTypes.number, // Optional
+    description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
   }).isRequired,
 };

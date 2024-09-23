@@ -27,7 +27,8 @@ const { data, error } = await query.select().single();
 if(error){
   throw new Error('Unable to create new Cabin.')
 }
-console.log(newCabin)
+if(hasImagePath) return data;
+
 const { storageError } = await supabase
   .storage
   .from('cabinImages')

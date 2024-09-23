@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import PropTypes from "prop-types";
 
 import Input from "../../ui/Input";
@@ -9,7 +7,8 @@ import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import {Textarea} from "../../ui/Textarea";
-import { createCabin } from "../../services/cabinsAPI";
+import { useCreateCabin } from "./useCreateCabin";
+import { useEditCabin } from "./useEditCabin";
 
 const FormRow = styled.div`
   display: grid;
@@ -50,44 +49,24 @@ const Error = styled.span`
 function CreateCabinForm({cabinToEdit={}}) {
   const {id: editId, ...editValues} = cabinToEdit
   const isEditing = Boolean(editId);
-  const queryClient = useQueryClient()
   const {register, handleSubmit, reset, getValues, formState} = useForm({defaultValues: isEditing ? editValues : {}});
   const {errors} = formState
+  const {addCabin, isCreatingCabin} = useCreateCabin()
+  const {editCabin, isEditingCabin} = useEditCabin()
   
-  const {mutate: addCabin, isLoading: isCreatingCabin} = useMutation({
-    mutationFn: createCabin,
-    onSuccess: ()=> {
-      toast.success('New cabin added successfully.')
-      queryClient.invalidateQueries({
-        queryKey: ['cabins']
-      })
-      reset()
-    },
-    onError: (err)=> toast.error(err.message)
-  } )
 
-  const {mutate: editCabin, isLoading: isEditingCabing} = useMutation({
-    mutationFn: ({newCabinData, id}) => createCabin(newCabinData, id),
-    onSuccess: ()=> {
-      toast.success('Cabin edited successfully.')
-      queryClient.invalidateQueries({
-        queryKey: ['cabins']
-      })
-      reset()
-    },
-    onError: (err)=> toast.error(err.message)
-  })
-
-  const isLoading = isCreatingCabin || isEditingCabing
+  const isLoading = isCreatingCabin || isEditingCabin
 
   function onSubmit(data){
     const image = typeof data.image === "string" ? data.image : data.image[0]
     if(isEditing){
-      console.log(data)
-      editCabin({newCabinData: {...data, image:image}, id: editId})}
-      else addCabin({...data, image: image})
+      editCabin({newCabinData: {...data, image:image}, id: editId}, {
+        onSuccess: ()=> reset()
+      })}
+      else addCabin({...data, image: image}, {
+        onSuccess: ()=> reset()
+      })
     }
-
 
   function onError(){}
 
