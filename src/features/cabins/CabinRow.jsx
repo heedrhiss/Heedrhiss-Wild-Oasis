@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
 
+import Modal from '../../ui/Modal';
 import CreateCabinForm from './CreateCabinForm';
+import ConfirmDelete from '../../ui/ConfirmDelete';
 import { formatCurrency } from '../../utils/helpers'
 import { useDeleteCabin } from './useDeleteCabin';
 import { useCreateCabin } from './useCreateCabin';
@@ -56,6 +58,7 @@ const Discount = styled.div`
 
 function CabinRow({cabin}) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isDeletingState, setIsDeletingState] = useState(false);
   const {addCabin, isCreatingCabin} = useCreateCabin()
   const {delCabin, isDeleting} = useDeleteCabin()
 
@@ -99,10 +102,18 @@ function CabinRow({cabin}) {
       <Button>
       <button onClick={handleCopy} disabled={isLoading}><HiSquare2Stack/></button>
       <button onClick={()=> setIsEditing(!isEditing)}><HiPencil/></button>
-      <button disabled={isLoading} onClick={()=> delCabin(cabinId)}><HiTrash/></button>
+      {isEditing &&
+      <Modal onClose={()=> setIsEditing(!isEditing)}>
+        <CreateCabinForm cabinToEdit={cabin} onClose={()=> setIsEditing(false)}/>
+      </Modal>}
+      <button disabled={isLoading} onClick={()=> setIsDeletingState(true)}><HiTrash/></button>
+      {isDeletingState && <Modal onClose={()=> setIsDeletingState(false)}>
+        <ConfirmDelete resource='Cabin' disabled={isLoading} closeModal={()=> setIsDeletingState(false)}
+        onConfirm={()=> delCabin(cabinId)}/>
+        </Modal>}
       </Button>
     </TableRow>
-    {isEditing && <CreateCabinForm cabinToEdit={cabin}/>}
+ 
     </>
   );
 }
@@ -112,7 +123,7 @@ CabinRow.propTypes = {
     id: PropTypes.number.isRequired,
     maxCapacity: PropTypes.number.isRequired,
     regPrice: PropTypes.number.isRequired,
-    discount: PropTypes.number, // Optional
+    discount: PropTypes.number,
     description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
   }).isRequired,

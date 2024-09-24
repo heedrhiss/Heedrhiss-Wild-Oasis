@@ -61,11 +61,13 @@ function CreateCabinForm({cabinToEdit={}, onClose}) {
     const image = typeof data.image === "string" ? data.image : data.image[0]
     if(isEditing){
       editCabin({newCabinData: {...data, image:image}, id: editId}, {
-        onSuccess: ()=> reset()
+        onSuccess: ()=> {reset()
+        onClose?.()}
       })}
       else addCabin({...data, image: image}, {
-        onSuccess: ()=> {reset(),
-        onClose?.()}
+        onSuccess: ()=> {
+          reset()
+          onClose?.()}
       })
     }
 
@@ -137,7 +139,7 @@ export default CreateCabinForm;
 
 CreateCabinForm.propTypes = {
   cabinToEdit: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     name: PropTypes.string,
     maxCapacity: PropTypes.number,
     regPrice: PropTypes.number,
@@ -145,5 +147,5 @@ CreateCabinForm.propTypes = {
     description: PropTypes.string,
     image: PropTypes.string,
   }),
-  onClose: PropTypes.func.isRequired, 
+  onClose: PropTypes.func, 
 };
