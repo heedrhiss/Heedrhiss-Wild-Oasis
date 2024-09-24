@@ -1,3 +1,5 @@
+import { createContext, useContext } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const StyledTable = styled.div`
@@ -40,16 +42,16 @@ const StyledRow = styled(CommonRow)`
   }
 `;
 
-const Footer = styled.footer`
-  background-color: var(--color-grey-50);
-  display: flex;
-  justify-content: center;
-  padding: 1.2rem;
+// const Footer = styled.footer`
+//   background-color: var(--color-grey-50);
+//   display: flex;
+//   justify-content: center;
+//   padding: 1.2rem;
 
-  &:not(:has(*)) {
-    display: none;
-  }
-`;
+//   &:not(:has(*)) {
+//     display: none;
+//   }
+// `;
 
 const Empty = styled.p`
   font-size: 1.6rem;
@@ -57,3 +59,58 @@ const Empty = styled.p`
   text-align: center;
   margin: 2.4rem;
 `;
+
+const TableContext = createContext()
+
+function Table({columns, children}) {
+  return (
+    <TableContext.Provider value={{columns}}>
+    <StyledTable role="table" columns={columns}>
+      {children}
+    </StyledTable>
+    </TableContext.Provider>
+  )
+}
+
+function Header({children}){
+  const {columns} = useContext(TableContext)
+  return(
+    <StyledHeader role='row' columns={columns} as='header'>
+      {children}
+    </StyledHeader>
+  )
+}
+
+function Body({data, render}){
+  if(!data.length) return <Empty>No Cabins available.</Empty>
+  return <StyledBody role="row">{data?.map(render)}</StyledBody>
+  }
+function Row({children}){
+  const {columns} = useContext(TableContext)
+  return(
+    <StyledRow role="row" columns={columns}>
+      {children}
+    </StyledRow>
+  )
+}
+Table.propTypes = {
+  children: PropTypes.node,
+  columns: PropTypes.string
+};
+
+Body.propTypes = {
+  data: PropTypes.object,
+  render: PropTypes.func,
+};
+Header.propTypes = {
+  children: PropTypes.node
+};
+Row.propTypes = {
+  children: PropTypes.node
+};
+
+Table.Header = Header
+Table.Body = Body
+Table.Row = Row
+
+export default Table
