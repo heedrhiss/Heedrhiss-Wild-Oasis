@@ -99,7 +99,7 @@ Table.propTypes = {
 };
 
 Body.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.array,
   render: PropTypes.func,
 };
 Header.propTypes = {
