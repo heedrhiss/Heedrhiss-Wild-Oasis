@@ -1,7 +1,8 @@
 import { useSearchParams } from "react-router-dom"
+import PropTypes from "prop-types";
 import Select from "./Select"
 
-function SortBy() {
+function SortBy({options}) {
     const [searchParam, setSearchParams] = useSearchParams()
     const sortBy = searchParam.get('sortBy') ?? '';
     function handleSelect(e){
@@ -9,15 +10,15 @@ function SortBy() {
         setSearchParams(searchParam)
     }
     return (
-        <Select onChange={handleSelect} value={sortBy}
-        options={[{value: 'name-asc', label: 'Sort Name (A-Z)'},
-        {value: 'name-dsc', label: 'Sort Name (Z-A)'},
-        {value: 'regPrice-asc', label: 'Sort Price (Low-High)'},
-        {value: 'regPrice-dsc', label: 'Sort Price (High-Low)'},
-        {value: 'maxCapacity-asc', label: 'Sort Capacity (Low-High)'},
-        {value: 'maxCapacity-dsc', label: 'Sort Capacity (High-Low)'},
-    ]}/>
+        <Select onChange={handleSelect} value={sortBy} options={options}/>
     )
 }
-
+SortBy.propTypes = {
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.string,
+        label: PropTypes.string,
+      })
+    )
+};
 export default SortBy

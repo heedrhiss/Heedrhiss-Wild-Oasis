@@ -9,7 +9,13 @@ function CabinFilters() {
         {value: 'discount', label: 'Discount'},
         {value: 'no-discount', label: 'No Discount'}
         ]}/>
-        <SortBy/>
+        <SortBy options={[{value: 'name-asc', label: 'Sort Name (A-Z)'},
+        {value: 'name-dsc', label: 'Sort Name (Z-A)'},
+        {value: 'regPrice-asc', label: 'Sort Price (Low-High)'},
+        {value: 'regPrice-dsc', label: 'Sort Price (High-Low)'},
+        {value: 'maxCapacity-asc', label: 'Sort Capacity (Low-High)'},
+        {value: 'maxCapacity-dsc', label: 'Sort Capacity (High-Low)'},
+    ]}/>
        </TableOperations>
     )
 }
