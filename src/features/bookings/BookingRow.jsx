@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
-import { HiEye } from "react-icons/hi2";
+import { HiArrowDownOnSquare, HiEye } from "react-icons/hi2";
 
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
@@ -36,6 +36,12 @@ const Amount = styled.div`
   font-family: "Sono";
   font-weight: 500;
 `;
+
+const Button = styled.div`
+  display: flex;
+  justify-content: space-around;
+  items-align: center;
+`
 
 function BookingRow({
   booking: {
@@ -83,7 +89,10 @@ function BookingRow({
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
+      <Button >
       <button onClick={()=>navigate(`/bookings/${bookingId}`)}><HiEye/></button>
+      {status === 'unconfirmed' && <button onClick={()=>navigate(`/checkin/${bookingId}`)}><HiArrowDownOnSquare/></button>}
+      </Button>
     </Table.Row>
   );
 }
