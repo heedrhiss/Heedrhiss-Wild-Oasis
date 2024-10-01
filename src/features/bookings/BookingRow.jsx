@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { IconContext } from "react-icons";
 import { format, isToday } from "date-fns";
-import { HiArrowDownOnSquare, HiEye } from "react-icons/hi2";
+import { HiArrowDownOnSquare, HiArrowUpOnSquare, HiEye } from "react-icons/hi2";
 
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
@@ -9,6 +10,7 @@ import Table from "../../ui/Table";
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
 import { useNavigate } from "react-router-dom";
+import { useCheckOut } from "../check-in-out/useCheckOut";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -63,6 +65,7 @@ function BookingRow({
     "checked-in": "green",
     "checked-out": "silver",
   };
+  const {checkOut, isCheckingOut} = useCheckOut()
 
   return (
     <Table.Row>
@@ -91,11 +94,24 @@ function BookingRow({
       <Amount>{formatCurrency(totalPrice)}</Amount>
       <Button >
       <button onClick={()=>navigate(`/bookings/${bookingId}`)}><HiEye/></button>
-      {status === 'unconfirmed' && <button onClick={()=>navigate(`/checkin/${bookingId}`)}><HiArrowDownOnSquare/></button>}
+
+      {status === 'unconfirmed' && <button onClick={()=>navigate(`/checkin/${bookingId}`)}><IconContext.Provider value={{ color: "green", className: "global-class-name" }}>
+      <HiArrowDownOnSquare/>
+      </IconContext.Provider></button>}
+
+      {status === 'checked-in' && <button onClick={()=>{checkOut(bookingId)}} disabled={isCheckingOut}>
+      <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
+      <HiArrowUpOnSquare/>
+      </IconContext.Provider></button>}
       </Button>
     </Table.Row>
   );
 }
+
+
+
+
+
 BookingRow.propTypes = {
   booking: PropTypes.shape({
     id: PropTypes.number,

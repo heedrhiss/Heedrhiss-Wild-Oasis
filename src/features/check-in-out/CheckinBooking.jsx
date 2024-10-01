@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import BookingDataBox from "../../features/bookings/BookingDataBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Row from "../../ui/Row";
 import Button from "../../ui/Button";
@@ -10,10 +10,12 @@ import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
 import CheckBox from "../../ui/CheckBox";
 
-import { useCheckin } from "./useCheckin";
+import { useCheckIn } from "./useCheckIn";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "../bookings/useBooking";
 import { formatCurrency } from "../../utils/helpers";
+import { useNavigate } from "react-router-dom";
+import { useSettings } from "../settings/useSettings";
 
 const Box = styled.div`
   /* Box */
@@ -25,25 +27,40 @@ const Box = styled.div`
 
 function CheckinBooking() {
   const [confirmPaid , setConfirmPaid] = useState(false)
+  const [addBreakfast , setAddBreakfast] = useState(false)
   const moveBack = useMoveBack();
+  const navigate = useNavigate()
 
-  const {isLoading, booking} = useBooking();
-  const {checkin, isCheckingIn} = useCheckin()
+  const {isLoading: isLooadingBooking, booking} = useBooking();
+  const {checkIn, isCheckingIn} = useCheckIn()
+  const {settings, isLoading} = useSettings()
 
   const {id: bookingId,
     guests,
+    numNights,
+    numGuests,
+    hasBreakfast,
     totalPrice,} = booking ?? {} ;
   
-    // numGuests,
-    // hasBreakfast,
-    // numNights,
+  useEffect(()=> setConfirmPaid(booking?.isPaid ?? false) , [booking])
+  const addBreakfastPrice = settings?.breakfastPrice * numGuests * numNights
 
   function handleCheckin() {
     if(!confirmPaid) return
-    checkin(bookingId)
+    if(addBreakfast){
+      checkIn({bookingId, breakfast: {
+        hasBreakfast: true,
+        extrasPrice: addBreakfastPrice,
+        totalPrice: totalPrice + addBreakfastPrice,
+      }})
+    }
+    else{
+      checkIn({bookingId, breakfast: {}})
+      navigate('/')
+    }
   }
 
-  if(isLoading) return <Spinner/>
+  if(isLoading || isLooadingBooking) return <Spinner/>
 
   return (
     <>
@@ -53,7 +70,13 @@ function CheckinBooking() {
       </Row>
 
       <BookingDataBox booking={booking} />
-      <Box> <CheckBox checked={confirmPaid} onChange={()=>setConfirmPaid((confirm)=> !confirm)}>I confirm that {guests.fullName} has Paid the total of {formatCurrency(totalPrice)}</CheckBox></Box>
+      {!hasBreakfast && (<Box> <CheckBox checked={addBreakfast}
+      onChange={()=>{setAddBreakfast(!addBreakfast)
+        setConfirmPaid(!confirmPaid)}}>Do you want to add Breakfast for {formatCurrency(addBreakfastPrice)}</CheckBox></Box>)}
+
+      <Box> <CheckBox checked={confirmPaid} disabled={confirmPaid}
+      onChange={()=>setConfirmPaid(true)}>I confirm that {guests.fullName} has Paid the total of {!addBreakfast ? formatCurrency(totalPrice) : 
+      `${formatCurrency(addBreakfastPrice + totalPrice)} + ${formatCurrency(addBreakfastPrice)} for breakfast`}</CheckBox></Box>
 
       <ButtonGroup>
         <Button onClick={handleCheckin} disabled={!confirmPaid || isCheckingIn}>Check in booking #{bookingId}</Button>
