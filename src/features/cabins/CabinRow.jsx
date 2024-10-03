@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { IconContext } from "react-icons";
 import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
 
 import Modal from '../../ui/Modal';
@@ -10,18 +11,6 @@ import { formatCurrency } from '../../utils/helpers'
 import { useDeleteCabin } from './useDeleteCabin';
 import { useCreateCabin } from './useCreateCabin';
 import Table from '../../ui/Table';
-
-// const TableRow = styled.div`
-//   display: grid;
-//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-//   column-gap: 2.4rem;
-//   align-items: center;
-//   padding: 1.4rem 2.4rem;
-
-//   &:not(:last-child) {
-//     border-bottom: 1px solid var(--color-grey-100);
-//   }
-// `;
 
 const Img = styled.img`
   display: block;
@@ -107,7 +96,11 @@ function CabinRow({cabin}) {
       <Modal onClose={()=> setIsEditing(!isEditing)}>
         <CreateCabinForm cabinToEdit={cabin} onClose={()=> setIsEditing(false)}/>
       </Modal>}
-      <button disabled={isLoading} onClick={()=> setIsDeletingState(true)}><HiTrash/></button>
+      <button disabled={isLoading} onClick={()=> setIsDeletingState(true)}>
+      <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
+      <HiTrash/>
+      </IconContext.Provider>
+      </button>
       {isDeletingState && <Modal onClose={()=> setIsDeletingState(false)}>
         <ConfirmDelete resource='Cabin' disabled={isLoading} closeModal={()=> setIsDeletingState(false)}
         onConfirm={()=> delCabin(cabinId)}/>

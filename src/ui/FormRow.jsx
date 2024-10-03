@@ -60,8 +60,8 @@ function FormRow({ label, error, children, orientation }) {
 export default FormRow;
 
 FormRow.propTypes = {
-  label: PropTypes.string, // Label is optional but should be a string if provided
-  error: PropTypes.string, // Error message is optional but should be a string
-  children: PropTypes.node.isRequired, // Children (form elements) are required
-  orientation: PropTypes.oneOf(["vertical", "horizontal"]).isRequired, // Orientation can only be 'vertical' or 'horizontal' and is required
+  label: PropTypes.string, 
+  error: PropTypes.string,
+  children: PropTypes.node,
+  orientation: PropTypes.oneOf(["vertical", "horizontal"])
 };

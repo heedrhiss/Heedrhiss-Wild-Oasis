@@ -22,7 +22,6 @@ function CabinTable() {
   const sortedCabins = filterCabins?.sort(
     (a, b) => (a[field] - b[field]) * modifier
   );
-  console.log(sortedCabins)
 
   if (isLoading) return <Spinner/>;
   return (
@@ -35,7 +34,7 @@ function CabinTable() {
           <div>Discount</div>
           <div></div>
         </Table.Header>
-        <Table.Body data={filterCabins} render={(cabin)=> (<CabinRow cabin={cabin} key={cabin.id}/>)}/>
+        <Table.Body data={sortedCabins} render={(cabin)=> (<CabinRow cabin={cabin} key={cabin.id}/>)}/>
         </Table>
 )
 }

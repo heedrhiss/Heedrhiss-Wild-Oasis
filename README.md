@@ -2,20 +2,22 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## React router DOM
+## Project library dependencies includes the following
 
-## styled-components
+### React router DOM
 
-## supabase
+### styled-components
 
-## React Query (@tanstack/react-query)
+### supabase
 
-## React Query devtools (@tanstack/react-query-devtool)
+### React Query (@tanstack/react-query)
 
-## Date function library (date-fns)
+### React Query devtools (@tanstack/react-query-devtool)
 
-## react hot toast
+### Date function library (date-fns)
 
-## react hook form
+### react hot toast
 
-## react icons
+### react hook form
+
+### react icons
