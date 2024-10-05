@@ -1,4 +1,7 @@
+import { HiArrowRightOnRectangle } from "react-icons/hi2";
 import styled from "styled-components";
+import ButtonIcon from './ButtonIcon'
+import { useLogout } from "../features/authentication/useLogout";
 
 const StyledHeader = styled.header`
   background-color: var(--color-grey-0);
@@ -7,7 +10,10 @@ const StyledHeader = styled.header`
 `;
 
 function Header() {
-  return <StyledHeader>HEADER</StyledHeader>;
+  const {isLoading, logOut} = useLogout()
+  return <StyledHeader>
+    <ButtonIcon disabled={isLoading} onClick={logOut}><HiArrowRightOnRectangle/></ButtonIcon>
+  </StyledHeader>;
 }
 
 export default Header;
