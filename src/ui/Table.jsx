@@ -21,7 +21,6 @@ const CommonRow = styled.header`
 
 const StyledHeader = styled(CommonRow)`
   padding: 1.6rem 2.4rem;
-
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
   text-transform: uppercase;
@@ -36,7 +35,6 @@ const StyledBody = styled.section`
 
 const StyledRow = styled(CommonRow)`
   padding: 1.2rem 2.4rem;
-
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
@@ -47,7 +45,6 @@ const StyledFooter = styled.footer`
   display: flex;
   justify-content: center;
   padding: 1.2rem;
-
   &:not(:has(*)) {
     display: none;
   }
