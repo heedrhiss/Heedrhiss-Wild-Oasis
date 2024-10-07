@@ -8,7 +8,7 @@ import Heading from "../../ui/Heading";
 import ButtonGroup from "../../ui/ButtonGroup";
 import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
-import CheckBox from "../../ui/CheckBox";
+import CheckBox from "../../ui/Checkbox";
 
 import { useCheckIn } from "./useCheckIn";
 import { useMoveBack } from "../../hooks/useMoveBack";
