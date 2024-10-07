@@ -6,7 +6,6 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import SpinnerMini from "../../ui/SpinnerMini"
 
-
 function LoginForm() {
   const [email, setEmail] = useState("heedrhiss@oasis.com");
   const [password, setPassword] = useState("123456");
