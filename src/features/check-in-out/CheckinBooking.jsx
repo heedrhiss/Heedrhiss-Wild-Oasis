@@ -8,7 +8,7 @@ import Heading from "../../ui/Heading";
 import ButtonGroup from "../../ui/ButtonGroup";
 import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
-import CheckBox from "../../ui/Checkbox";
+import Checkbox from "../../ui/Checkbox";
 
 import { useCheckIn } from "./useCheckIn";
 import { useMoveBack } from "../../hooks/useMoveBack";
@@ -70,13 +70,13 @@ function CheckinBooking() {
       </Row>
 
       <BookingDataBox booking={booking} />
-      {!hasBreakfast && (<Box> <CheckBox checked={addBreakfast}
+      {!hasBreakfast && (<Box> <Checkbox checked={addBreakfast}
       onChange={()=>{setAddBreakfast(!addBreakfast)
-        setConfirmPaid(!confirmPaid)}}>Do you want to add Breakfast for {formatCurrency(addBreakfastPrice)}</CheckBox></Box>)}
+        setConfirmPaid(!confirmPaid)}}>Do you want to add Breakfast for {formatCurrency(addBreakfastPrice)}</Checkbox></Box>)}
 
-      <Box> <CheckBox checked={confirmPaid} disabled={confirmPaid}
+      <Box> <Checkbox checked={confirmPaid} disabled={confirmPaid}
       onChange={()=>setConfirmPaid(true)}>I confirm that {guests.fullName} has Paid the total of {!addBreakfast ? formatCurrency(totalPrice) : 
-      `${formatCurrency(addBreakfastPrice + totalPrice)} + ${formatCurrency(addBreakfastPrice)} for breakfast`}</CheckBox></Box>
+      `${formatCurrency(addBreakfastPrice + totalPrice)} + ${formatCurrency(addBreakfastPrice)} for breakfast`}</Checkbox></Box>
 
       <ButtonGroup>
         <Button onClick={handleCheckin} disabled={!confirmPaid || isCheckingIn}>Check in booking #{bookingId}</Button>
