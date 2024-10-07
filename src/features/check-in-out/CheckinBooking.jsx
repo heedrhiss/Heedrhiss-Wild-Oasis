@@ -10,7 +10,7 @@ import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
 import Checkbox from "../../ui/Checkbox";
 
-import { useCheckIn } from "./useCheckIn";
+import { useCheckIn } from "../check-in-out/useCheckIn";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "../bookings/useBooking";
 import { formatCurrency } from "../../utils/helpers";
