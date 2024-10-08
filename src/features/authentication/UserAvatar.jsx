@@ -24,7 +24,7 @@ function UserAvatar() {
   const {user} = useUser()
   return (
     <StyledUserAvatar>
-      <Avatar src={defImage} /> 
+      <Avatar src={user.user_metadata.avatar || defImage} /> 
       <span><strong>{user.user_metadata.fullName}</strong></span>
     </StyledUserAvatar>
   )
