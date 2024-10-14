@@ -53,7 +53,6 @@ console.log(avatar)
           id='avatar'
           accept='image/*'
           onChange={(e) => setAvatar(e.target.files[0])}
-          // We should also validate that it's actually an image, but never mind
         />
       </FormRow>
       <FormRow>

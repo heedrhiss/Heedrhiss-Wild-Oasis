@@ -1,9 +1,10 @@
-import CheckoutButton from 'features/check-in-out/CheckoutButton';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from 'ui/Button';
-import { Flag } from 'ui/Flag';
-import Tag from 'ui/Tag';
+import PropTypes from 'prop-types';
+import CheckoutButton from '../check-in-out/CheckoutButton';
+import { Link } from 'react-router-dom';
+import Button from '../../ui/Button';
+import { Flag } from '../../ui/Flag';
+import Tag from '../../ui/Tag';
 
 const StyledTodayItem = styled.li`
   display: grid;
@@ -65,5 +66,7 @@ function TodayItem({ stay }) {
     </StyledTodayItem>
   );
 }
-
+TodayItem.propTypes = {
+  stay: PropTypes.arr,
+};
 export default TodayItem;

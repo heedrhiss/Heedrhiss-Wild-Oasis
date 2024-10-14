@@ -4,7 +4,8 @@ import {
   HiOutlineBanknotes,
   HiOutlineChartBar,
 } from 'react-icons/hi2';
-import { formatCurrency } from 'utils/helpers';
+import PropTypes from 'prop-types';
+import { formatCurrency } from '../../utils/helpers';
 import Stat from './Stat';
 
 function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
@@ -52,5 +53,18 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
     </>
   );
 }
-
+Stats.propTypes = {
+  bookings: PropTypes.arrayOf(
+    PropTypes.shape({
+      totalPrice: PropTypes.number,
+    })
+  ),
+  confirmedStays: PropTypes.arrayOf(
+    PropTypes.shape({
+      numNights: PropTypes.number,
+    })
+  ),
+  numDays: PropTypes.number,
+  cabinCount: PropTypes.number,
+};
 export default Stats;
