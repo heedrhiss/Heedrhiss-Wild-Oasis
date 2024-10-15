@@ -10,12 +10,12 @@ import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
 import Checkbox from "../../ui/Checkbox";
 
-import { useCheckIn } from "../check-in-out/useCheckIn";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "../bookings/useBooking";
-import { formatCurrency } from "../../utils/helpers";
+import { useCheckIn } from "./useCheckIn";
 import { useNavigate } from "react-router-dom";
 import { useSettings } from "../settings/useSettings";
+import { formatCurrency } from "../../utils/helpers";
 
 const Box = styled.div`
   /* Box */
