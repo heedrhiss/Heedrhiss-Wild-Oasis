@@ -1,6 +1,6 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project provides an optimal setup for a Hotel/Airbnb platform management and monitoring.
 
 ## Project library dependencies includes the following
 
@@ -21,3 +21,7 @@ This template provides a minimal setup to get React working in Vite with HMR and
 ### react hook form
 
 ### react icons
+
+### react recharts
+
+### react error boundary

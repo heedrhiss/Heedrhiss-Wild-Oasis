@@ -3,13 +3,16 @@ import styled from 'styled-components';
 import Heading from '../../ui/Heading';
 import DashboardBox from './DashboardBox';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { useContext } from 'react';
-import { DarkModeContext } from '../../hooks/DarkModeContext';
+import { useDarkMode } from '../../hooks/DarkModeContext';
 import { eachDayOfInterval, format, isSameDay, subDays } from 'date-fns';
 
 
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
+
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-grey-100);
+  border-radius: var(--border-radius-md);
 
   /* Hack to change grid line colors */
   & .recharts-cartesian-grid-horizontal line,
@@ -20,7 +23,7 @@ const StyledSalesChart = styled(DashboardBox)`
 
 function SalesChart({bookings, numDays}) {
   // In the chart we need to set colors, but we can't do it based on CSS variables, because we have no access to them here. So let's set them manually
-  const { isDarkMode } = useContext(DarkModeContext);
+  const { isDarkMode } = useDarkMode()
   const allDates = eachDayOfInterval({
     start: subDays(new Date(), numDays -1),
     end: new Date()
@@ -49,7 +52,7 @@ function SalesChart({bookings, numDays}) {
 
   return (
     <StyledSalesChart>
-      <Heading type='h2'>
+      <Heading as='h2'>
         Sales from {format(allDates[0], 'MMM dd yyyy')} &mdash; {format(allDates[allDates.length - 1], 'MMM dd yyyy')}
       </Heading>
     <ResponsiveContainer width='100%' height={300}>

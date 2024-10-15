@@ -28,8 +28,8 @@ const Guest = styled.div`
   font-weight: 500;
 `;
 
-function TodayItem({ stay }) {
-  const { id, status, guests, numNights } = stay;
+function TodayItem({ activity }) {
+  const { id, status, guests, numNights } = activity;
 
   const statusToAction = {
     unconfirmed: {
@@ -67,6 +67,6 @@ function TodayItem({ stay }) {
   );
 }
 TodayItem.propTypes = {
-  stay: PropTypes.arr,
+  activity: PropTypes.arr,
 };
 export default TodayItem;
