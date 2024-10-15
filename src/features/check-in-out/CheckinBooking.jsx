@@ -12,9 +12,9 @@ import Checkbox from "../../ui/Checkbox";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "../bookings/useBooking";
-import { useCheckIn } from "./useCheckIn";
 import { useNavigate } from "react-router-dom";
 import { useSettings } from "../settings/useSettings";
+import { useCheckin } from "./useCheckin";
 import { formatCurrency } from "../../utils/helpers";
 
 const Box = styled.div`
@@ -32,7 +32,7 @@ function CheckinBooking() {
   const navigate = useNavigate()
 
   const {isLoading: isLooadingBooking, booking} = useBooking();
-  const {checkIn, isCheckingIn} = useCheckIn()
+  const {checkIn, isCheckingIn} = useCheckin()
   const {settings, isLoading} = useSettings()
 
   const {id: bookingId,
