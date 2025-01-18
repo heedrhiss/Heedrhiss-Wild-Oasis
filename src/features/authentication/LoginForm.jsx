@@ -4,20 +4,25 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
-import SpinnerMini from "../../ui/SpinnerMini"
+import SpinnerMini from "../../ui/SpinnerMini";
 
 function LoginForm() {
   const [email, setEmail] = useState("heedrhiss@oasis.com");
-  const [password, setPassword] = useState("");
-  const {logIn, isLogingIn} = useLogin()
+  const [password, setPassword] = useState("11111111");
+  const { logIn, isLogingIn } = useLogin();
 
   function handleSubmit(e) {
-    e.preventDefault()
-    if(!email || !password) return
-    logIn({email, password}, {
-      onError: ()=> {setEmail("") 
-      setPassword("")}
-    })
+    e.preventDefault();
+    if (!email || !password) return;
+    logIn(
+      { email, password },
+      {
+        onError: () => {
+          setEmail("");
+          setPassword("");
+        },
+      }
+    );
   }
 
   return (
@@ -44,7 +49,7 @@ function LoginForm() {
       </FormRow>
       <FormRow orientation="vertical">
         <Button size="large" disabled={isLogingIn}>
-          {isLogingIn ? <SpinnerMini/> : "Login"}
+          {isLogingIn ? <SpinnerMini /> : "Login"}
         </Button>
       </FormRow>
     </Form>

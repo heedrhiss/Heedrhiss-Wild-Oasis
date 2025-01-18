@@ -1,4 +1,11 @@
-import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Heading from "../../ui/Heading";
@@ -135,28 +142,45 @@ function prepareData(startData, stays) {
   return data;
 }
 
-function DurationChart({confirmData}) {
-  const {isDarkMode} = useDarkMode()
-  const startData = isDarkMode ? startDataDark : startDataLight
-  const data = prepareData(startData, confirmData)
+function DurationChart({ confirmData }) {
+  const { isDarkMode } = useDarkMode();
+  const startData = isDarkMode ? startDataDark : startDataLight;
+  const data = prepareData(startData, confirmData);
 
   return (
     <ChartBox>
-      <Heading as='h2'>Stay Duration Summary</Heading>
+      <Heading as="h2">Stay Duration Summary</Heading>
       <ResponsiveContainer width="100%" height={240}>
-      <PieChart>
-        <Pie data={data} nameKey='duration' dataKey='value' innerRadius={80} outerRadius={120} paddingAngle={5}  cx='40%' cy='50%'>
-          {data.map(item=> <Cell stroke={item.color} fill={item.color} key={item.duration}/>)}
-        </Pie>
-        <Legend align="right" verticalAlign="middle" layout="vertical" iconSize={15} iconType="circle"/>
-        <Tooltip />
-      </PieChart>
+        <PieChart>
+          <Pie
+            data={data}
+            nameKey="duration"
+            dataKey="value"
+            innerRadius={80}
+            outerRadius={110}
+            paddingAngle={5}
+            cx="40%"
+            cy="50%"
+          >
+            {data.map((item) => (
+              <Cell stroke={item.color} fill={item.color} key={item.duration} />
+            ))}
+          </Pie>
+          <Legend
+            align="right"
+            verticalAlign="middle"
+            layout="vertical"
+            iconSize={15}
+            iconType="circle"
+          />
+          <Tooltip />
+        </PieChart>
       </ResponsiveContainer>
     </ChartBox>
-  )
+  );
 }
 
 DurationChart.propTypes = {
   confirmData: PropTypes.arr,
 };
-export default DurationChart
+export default DurationChart;
