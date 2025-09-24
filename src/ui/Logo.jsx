@@ -3,6 +3,9 @@ import { useDarkMode } from "../hooks/DarkModeContext";
 
 const StyledLogo = styled.div`
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Img = styled.img`
