@@ -2,7 +2,7 @@
 
 This project provides an optimal setup for a Hotel/Airbnb platform management and monitoring.
 
-Project is live on Netlify with [Heedrhiss Wild Oasis](https://heedrhiss-wild-oasis.netlify.app/).
+Project is live on Netlify with [Heedrhiss Wild Oasis](https://heedrhiss-wild-oasis.vercel.app/).
 
 ## Project library dependencies includes the following
 
